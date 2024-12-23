@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:untitled1/Components/components.dart';
-import 'package:untitled1/Modules/Login%20Screen.dart';
+import 'package:untitled1/Modules/Login%20Screen/Login%20Screen.dart';
 
 
 
@@ -55,7 +55,7 @@ class _OnBoardingState extends State<OnBoarding> {
         ],
       ),
       body:Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(25.0),
         child: Column(
           children: [
             Expanded(
@@ -107,7 +107,7 @@ class _OnBoardingState extends State<OnBoarding> {
                   {
                     boardController.nextPage(
                         duration: Duration(
-                          milliseconds: 800,
+                          milliseconds: 100,
                         ),
                         curve: Curves.fastLinearToSlowEaseIn);
                   }
