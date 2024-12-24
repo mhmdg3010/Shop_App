@@ -24,22 +24,6 @@ class ShopLogin extends StatelessWidget {
             if(state.loginModel.status!){
               print(state.loginModel.message);
               print(state.loginModel.data!.token);
-              showToast(
-                state.loginModel.message,
-                context: context,
-                backgroundColor: Colors.green,
-                animation: StyledToastAnimation.slideFromBottom,
-                reverseAnimation: StyledToastAnimation.slideFromBottom,
-                position: StyledToastPosition.top,
-                startOffset: Offset(0.0, -3.0),
-                reverseEndOffset: Offset(0.0, -3.0),
-                duration: Duration(seconds: 4),
-              );
-
-            }else
-            {
-              print(state.loginModel.message);
-
               CacheHelper.saveData(
                 key: 'token',
                 value: state.loginModel.data!.token!,
@@ -50,6 +34,10 @@ class ShopLogin extends StatelessWidget {
                   ShopLayout(),
                 );
               });
+
+            }else
+            {
+              print(state.loginModel.message);
               showToast(
                 state.loginModel.message,
                 context: context,
@@ -87,15 +75,20 @@ class ShopLogin extends StatelessWidget {
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        SizedBox(height: 15,),
+                        SizedBox(
+                          height: 15,),
+
                         Text(
                           'Login now to browse our hot offers',
                           style: TextStyle(
-                            fontSize: 15,
+                            fontSize: 18,
                             color: Colors.grey,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
+                        SizedBox(
+                          height: 15,),
+
                         defaultFormField(
                           controller: emailController,
                           keyboardType: TextInputType.emailAddress,

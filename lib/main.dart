@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:untitled1/Modules/OnBoarding%20Screen.dart';
+import 'package:untitled1/Modules/Shop_Layout/Shop-Lyout.dart';
 import 'package:untitled1/network/local/cache_helper.dart';
 import 'package:untitled1/network/remote/dio_helper.dart';
 
@@ -9,19 +10,29 @@ void main()async {
   WidgetsFlutterBinding.ensureInitialized();
   DioHelper.init();
   await CacheHelper.init();
-  bool? onBoarding = CacheHelper.getData(key: 'onBoarding');
-  runApp( MyApp(onBoarding: onBoarding));
+  Widget? widget;
+
+  bool? onBoarding = CacheHelper.getdata(key: 'onBoarding');
+  dynamic token = CacheHelper.getdata(key: 'token');
+  if(onBoarding != null){
+    if(token != null) widget = ShopLayout();
+    else  widget = ShopLogin();
+
+  }else{
+    widget = OnBoarding();
+  }
+  runApp( MyApp(startWidget: widget));
 }
 
 class MyApp extends StatelessWidget {
-  final bool? onBoarding;
-  const MyApp({this.onBoarding});
+  final Widget? startWidget;
+  const MyApp({this.startWidget});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: onBoarding! ? ShopLogin():OnBoarding(),
+      home: startWidget,
       theme: ThemeData(
         appBarTheme: AppBarTheme(
           backgroundColor: Colors.white
