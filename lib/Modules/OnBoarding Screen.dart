@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:untitled1/Components/components.dart';
 import 'package:untitled1/Modules/Login%20Screen/Login%20Screen.dart';
+import 'package:untitled1/network/local/cache_helper.dart';
 
 
 
@@ -33,6 +34,13 @@ class _OnBoardingState extends State<OnBoarding> {
         image: 'assets/images/onboarding.png', body: 'Body 3', title: 'title 3'),
 
   ];
+  void submit(){
+    CacheHelper.saveData(key: 'onBoarding', value: true).then((value) {
+      if(value!){
+        navigateAndfinish(context, ShopLogin());
+      }
+    });
+  }
 
   bool isLast =false;
 
@@ -44,7 +52,7 @@ class _OnBoardingState extends State<OnBoarding> {
         actions: [
           TextButton(
               onPressed: (){
-                navigateAndfinish(context, ShopLogin());
+                submit();
               },
               child: Text(
                 'SKIP',
@@ -101,8 +109,7 @@ class _OnBoardingState extends State<OnBoarding> {
                 {
                   if(isLast)
                   {
-                   navigateAndfinish(context, ShopLogin());
-
+                    submit();
                   }else
                   {
                     boardController.nextPage(

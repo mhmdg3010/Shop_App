@@ -1,9 +1,12 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:untitled1/Components/components.dart';
 import 'package:untitled1/Modules/Login%20Screen/cubit.dart';
 import 'package:untitled1/Modules/Login%20Screen/states.dart';
+import 'package:untitled1/Modules/Shop_Layout/Shop-Lyout.dart';
+import 'package:untitled1/network/local/cache_helper.dart';
 
 import '../Shop Register Screen.dart';
 
@@ -16,7 +19,52 @@ class ShopLogin extends StatelessWidget {
     return BlocProvider(
       create: (BuildContext context) => ShopLoginCubit(),
       child: BlocConsumer<ShopLoginCubit, ShopLoginStates>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if(state is ShopLoginSuccessState){
+            if(state.loginModel.status!){
+              print(state.loginModel.message);
+              print(state.loginModel.data!.token);
+              showToast(
+                state.loginModel.message,
+                context: context,
+                backgroundColor: Colors.green,
+                animation: StyledToastAnimation.slideFromBottom,
+                reverseAnimation: StyledToastAnimation.slideFromBottom,
+                position: StyledToastPosition.top,
+                startOffset: Offset(0.0, -3.0),
+                reverseEndOffset: Offset(0.0, -3.0),
+                duration: Duration(seconds: 4),
+              );
+
+            }else
+            {
+              print(state.loginModel.message);
+
+              CacheHelper.saveData(
+                key: 'token',
+                value: state.loginModel.data!.token!,
+              ).then((value) {
+
+                navigateAndfinish(
+                  context,
+                  ShopLayout(),
+                );
+              });
+              showToast(
+                state.loginModel.message,
+                context: context,
+                backgroundColor: Colors.red,
+                animation: StyledToastAnimation.slideFromBottom,
+                reverseAnimation: StyledToastAnimation.slideFromBottom,
+                position: StyledToastPosition.top,
+                startOffset: Offset(0.0, -3.0),
+                reverseEndOffset: Offset(0.0, -3.0),
+                duration: Duration(seconds: 4),
+              );
+
+            }
+          }
+        },
         builder: (context, state) {
           return  Scaffold(
             appBar: AppBar(
